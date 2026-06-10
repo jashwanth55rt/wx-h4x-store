@@ -1,0 +1,421 @@
+<!-- WX H4X STORE - ADMIN CONTROL CENTER
+     Phase 1: Complete Admin Application -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WX H4X STORE - Admin Control Center</title>
+  <link rel="stylesheet" href="css/admin-styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <!-- Splash/Loading Screen -->
+  <div id="splashScreen" class="splash-screen active">
+    <div class="splash-content">
+      <div class="logo">WX H4X</div>
+      <div class="loader"></div>
+      <div class="loading-text">Admin Panel Loading</div>
+    </div>
+  </div>
+
+  <!-- Main Container -->
+  <div id="mainContainer" class="main-container hidden">
+    
+    <!-- Header -->
+    <header class="header">
+      <div class="header-left">
+        <button class="sidebar-toggle" id="sidebarToggle">
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="logo-mini">WX H4X</div>
+      </div>
+
+      <div class="header-center">
+        <div class="search-bar">
+          <input type="text" placeholder="Search anything..." id="globalSearch">
+          <i class="fas fa-search"></i>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <button class="notification-btn" id="notificationBtn">
+          <i class="fas fa-bell"></i>
+          <span class="badge">3</span>
+        </button>
+
+        <button class="settings-btn" id="settingsBtn">
+          <i class="fas fa-cog"></i>
+        </button>
+
+        <div class="user-menu">
+          <img src="https://via.placeholder.com/40" alt="Admin" class="user-avatar" id="userAvatar">
+          <button class="user-menu-btn" id="userMenuBtn">
+            <span id="adminName">Admin</span>
+            <i class="fas fa-chevron-down"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h3>WX H4X STORE</h3>
+        <button class="close-btn" id="sidebarClose">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="#dashboard" class="nav-item active" data-module="dashboard">
+          <i class="fas fa-chart-line"></i>
+          <span>Dashboard</span>
+        </a>
+
+        <div class="nav-section">
+          <h4>Management</h4>
+          <a href="#users" class="nav-item" data-module="users">
+            <i class="fas fa-users"></i>
+            <span>Users</span>
+          </a>
+          <a href="#resellers" class="nav-item" data-module="resellers">
+            <i class="fas fa-user-tie"></i>
+            <span>Resellers</span>
+          </a>
+          <a href="#products" class="nav-item" data-module="products">
+            <i class="fas fa-box"></i>
+            <span>Products</span>
+          </a>
+          <a href="#orders" class="nav-item" data-module="orders">
+            <i class="fas fa-shopping-cart"></i>
+            <span>Orders</span>
+          </a>
+          <a href="#payments" class="nav-item" data-module="payments">
+            <i class="fas fa-credit-card"></i>
+            <span>Payments</span>
+          </a>
+          <a href="#licenses" class="nav-item" data-module="licenses">
+            <i class="fas fa-key"></i>
+            <span>Licenses</span>
+          </a>
+          <a href="#downloads" class="nav-item" data-module="downloads">
+            <i class="fas fa-download"></i>
+            <span>Downloads</span>
+          </a>
+        </div>
+
+        <div class="nav-section">
+          <h4>Content</h4>
+          <a href="#categories" class="nav-item" data-module="categories">
+            <i class="fas fa-list"></i>
+            <span>Categories</span>
+          </a>
+          <a href="#banners" class="nav-item" data-module="banners">
+            <i class="fas fa-image"></i>
+            <span>Banners</span>
+          </a>
+          <a href="#announcements" class="nav-item" data-module="announcements">
+            <i class="fas fa-bullhorn"></i>
+            <span>Announcements</span>
+          </a>
+        </div>
+
+        <div class="nav-section">
+          <h4>Advanced</h4>
+          <a href="#analytics" class="nav-item" data-module="analytics">
+            <i class="fas fa-chart-bar"></i>
+            <span>Analytics</span>
+          </a>
+          <a href="#settings" class="nav-item" data-module="settings">
+            <i class="fas fa-sliders-h"></i>
+            <span>Settings</span>
+          </a>
+          <a href="#audit-logs" class="nav-item" data-module="audit-logs">
+            <i class="fas fa-history"></i>
+            <span>Audit Logs</span>
+          </a>
+        </div>
+      </nav>
+
+      <button class="logout-btn" id="logoutBtn">
+        <i class="fas fa-sign-out-alt"></i>
+        <span>Logout</span>
+      </button>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div id="contentArea" class="content-area">
+        <!-- Dashboard Module (Default) -->
+        <div id="dashboardModule" class="module active">
+          <div class="module-header">
+            <h1>Dashboard</h1>
+            <p>Welcome back, Admin! Here's your business overview.</p>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon">
+                <i class="fas fa-users"></i>
+              </div>
+              <div class="stat-content">
+                <h3>Total Users</h3>
+                <p class="stat-value" data-counter="totalUsers">0</p>
+                <span class="stat-change positive">+5.2% this month</span>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon">
+                <i class="fas fa-shopping-cart"></i>
+              </div>
+              <div class="stat-content">
+                <h3>Total Orders</h3>
+                <p class="stat-value" data-counter="totalOrders">0</p>
+                <span class="stat-change positive">+12.5% this month</span>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon">
+                <i class="fas fa-rupee-sign"></i>
+              </div>
+              <div class="stat-content">
+                <h3>Total Revenue</h3>
+                <p class="stat-value" data-counter="totalRevenue">₹0</p>
+                <span class="stat-change positive">+8.1% this month</span>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon">
+                <i class="fas fa-box"></i>
+              </div>
+              <div class="stat-content">
+                <h3>Total Products</h3>
+                <p class="stat-value" data-counter="totalProducts">0</p>
+                <span class="stat-change">No change</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="dashboard-grid">
+            <div class="chart-container">
+              <h3>Revenue Trend</h3>
+              <canvas id="revenueChart" height="300"></canvas>
+            </div>
+
+            <div class="chart-container">
+              <h3>Orders by Category</h3>
+              <canvas id="categoryChart" height="300"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Users Module -->
+        <div id="usersModule" class="module">
+          <div class="module-header">
+            <h1>User Management</h1>
+            <div class="header-actions">
+              <button class="btn btn-primary" id="addUserBtn">
+                <i class="fas fa-plus"></i> Add User
+              </button>
+            </div>
+          </div>
+
+          <div class="filters-bar">
+            <input type="text" placeholder="Search users..." class="filter-input" id="userSearch">
+            <select class="filter-select" id="userStatusFilter">
+              <option value="">All Status</option>
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+              <option value="suspended">Suspended</option>
+            </select>
+          </div>
+
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Joined</th>
+                <th>Orders</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="usersTableBody">
+              <tr>
+                <td colspan="6" class="text-center">Loading users...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Resellers Module -->
+        <div id="resellersModule" class="module">
+          <div class="module-header">
+            <h1>Reseller Management</h1>
+            <div class="header-actions">
+              <button class="btn btn-primary" id="addResellerBtn">
+                <i class="fas fa-plus"></i> Add Reseller
+              </button>
+            </div>
+          </div>
+
+          <div class="filters-bar">
+            <input type="text" placeholder="Search resellers..." class="filter-input" id="resellerSearch">
+          </div>
+
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Commission</th>
+                <th>Total Sales</th>
+                <th>Earnings</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="resellersTableBody">
+              <tr>
+                <td colspan="7" class="text-center">Loading resellers...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Products Module -->
+        <div id="productsModule" class="module">
+          <div class="module-header">
+            <h1>Product Management</h1>
+            <div class="header-actions">
+              <button class="btn btn-primary" id="addProductBtn">
+                <i class="fas fa-plus"></i> Add Product
+              </button>
+            </div>
+          </div>
+
+          <div class="filters-bar">
+            <input type="text" placeholder="Search products..." class="filter-input" id="productSearch">
+            <select class="filter-select" id="productCategoryFilter">
+              <option value="">All Categories</option>
+            </select>
+          </div>
+
+          <div class="products-grid" id="productsGrid">
+            <div class="loading-placeholder">Loading products...</div>
+          </div>
+        </div>
+
+        <!-- Orders Module -->
+        <div id="ordersModule" class="module">
+          <div class="module-header">
+            <h1>Order Management</h1>
+          </div>
+
+          <div class="filters-bar">
+            <input type="text" placeholder="Search orders..." class="filter-input" id="orderSearch">
+            <select class="filter-select" id="orderStatusFilter">
+              <option value="">All Status</option>
+              <option value="pending">Pending</option>
+              <option value="processing">Processing</option>
+              <option value="completed">Completed</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+          </div>
+
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="ordersTableBody">
+              <tr>
+                <td colspan="6" class="text-center">Loading orders...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Placeholder for other modules -->
+        <div id="paymentsModule" class="module">
+          <div class="module-header">
+            <h1>Payment Management</h1>
+          </div>
+          <p>Payment management content coming soon...</p>
+        </div>
+
+        <div id="licensesModule" class="module">
+          <div class="module-header">
+            <h1>License Management</h1>
+            <div class="header-actions">
+              <button class="btn btn-primary" id="generateLicenseBtn">
+                <i class="fas fa-key"></i> Generate License
+              </button>
+            </div>
+          </div>
+          <p>License management content coming soon...</p>
+        </div>
+
+        <div id="downloadsModule" class="module">
+          <div class="module-header">
+            <h1>Download Management</h1>
+          </div>
+          <p>Download management content coming soon...</p>
+        </div>
+
+        <div id="analyticsModule" class="module">
+          <div class="module-header">
+            <h1>Analytics</h1>
+          </div>
+          <p>Analytics content coming soon...</p>
+        </div>
+
+        <div id="settingsModule" class="module">
+          <div class="module-header">
+            <h1>Settings</h1>
+          </div>
+          <p>Settings content coming soon...</p>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Firebase Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics.js"></script>
+
+  <!-- Core Scripts -->
+  <script src="firebase-config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/auth-manager.js"></script>
+  <script src="js/database-manager.js"></script>
+
+  <!-- Admin Specific Scripts -->
+  <script src="js/admin-app.js"></script>
+
+  <script>
+    // Initialize Admin App on load
+    document.addEventListener('DOMContentLoaded', async () => {
+      const adminApp = new AdminApp();
+      await adminApp.initialize();
+    });
+  </script>
+</body>
+</html>
