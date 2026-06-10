@@ -1,0 +1,325 @@
+<!-- WX H4X STORE - SPLASH SCREEN & LOADING
+     Phase 1: Startup Flow Implementation -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WX H4X STORE - Loading</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    .splash-container {
+      text-align: center;
+      color: white;
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    .logo-wrapper {
+      margin-bottom: 40px;
+      animation: slideUp 0.6s ease-out;
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .logo {
+      font-size: 60px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+    }
+
+    .tagline {
+      font-size: 14px;
+      opacity: 0.9;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .loader {
+      width: 50px;
+      height: 50px;
+      margin: 40px auto;
+      border: 4px solid rgba(255, 255, 255, 0.3);
+      border-top: 4px solid white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .loading-text {
+      font-size: 18px;
+      margin-bottom: 20px;
+      min-height: 24px;
+    }
+
+    .percentage {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .progress-bar-container {
+      width: 200px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 2px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: white;
+      width: 0%;
+      transition: width 0.3s ease;
+      border-radius: 2px;
+    }
+
+    .status-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 30px;
+      font-size: 14px;
+      opacity: 0.8;
+    }
+
+    .status-icon {
+      margin-right: 10px;
+      font-size: 18px;
+    }
+
+    .check-icon {
+      color: #4ade80;
+    }
+
+    .loading-icon {
+      animation: spin 1s linear infinite;
+    }
+
+    .error-icon {
+      color: #ef4444;
+    }
+
+    @media (max-width: 768px) {
+      .logo {
+        font-size: 48px;
+      }
+
+      .loading-text {
+        font-size: 16px;
+      }
+
+      .progress-bar-container {
+        width: 150px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="splash-container">
+    <div class="logo-wrapper">
+      <div class="logo">WX H4X</div>
+      <div class="tagline">Ultimate Digital Marketplace</div>
+    </div>
+
+    <div class="loader"></div>
+
+    <div class="loading-text" id="loadingText">Initializing</div>
+    <div class="percentage" id="loadingPercentage">0%</div>
+
+    <div class="progress-bar-container">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div id="statusContainer"></div>
+  </div>
+
+  <script>
+    // Splash Screen Logic
+    class SplashScreen {
+      constructor() {
+        this.currentStep = 0;
+        this.steps = [
+          { name: 'Firebase Check', duration: 800 },
+          { name: 'Network Check', duration: 600 },
+          { name: 'Database Check', duration: 700 },
+          { name: 'Version Check', duration: 500 },
+          { name: 'Maintenance Check', duration: 400 },
+          { name: 'Auto Login Check', duration: 900 }
+        ];
+        this.startTime = Date.now();
+        this.initialize();
+      }
+
+      async initialize() {
+        try {
+          await this.runStartupFlow();
+          this.complete();
+        } catch (error) {
+          this.error(error);
+        }
+      }
+
+      async runStartupFlow() {
+        let progress = 0;
+        const increment = 100 / this.steps.length;
+
+        for (const step of this.steps) {
+          this.updateStatus(step.name, 'loading');
+          await this.sleep(step.duration);
+          
+          progress += increment;
+          this.updateProgress(Math.min(progress, 95));
+          this.updateStatus(step.name, 'complete');
+        }
+      }
+
+      updateProgress(percentage) {
+        const progressBar = document.getElementById('progressBar');
+        const loadingPercentage = document.getElementById('loadingPercentage');
+        
+        progressBar.style.width = percentage + '%';
+        loadingPercentage.textContent = Math.round(percentage) + '%';
+      }
+
+      updateStatus(stepName, status) {
+        const statusContainer = document.getElementById('statusContainer');
+        const loadingText = document.getElementById('loadingText');
+        
+        loadingText.textContent = stepName;
+
+        if (status === 'complete') {
+          this.addStatusItem(stepName, 'check-icon', '✓');
+        } else if (status === 'loading') {
+          this.addStatusItem(stepName, 'loading-icon', '↻');
+        } else {
+          this.addStatusItem(stepName, 'error-icon', '✕');
+        }
+      }
+
+      addStatusItem(text, iconClass, icon) {
+        const container = document.getElementById('statusContainer');
+        const existingItem = container.querySelector(`[data-step="${text}"]`);
+        
+        if (existingItem) {
+          existingItem.innerHTML = `
+            <span class="status-icon ${iconClass}">${icon}</span>
+            <span>${text}</span>
+          `;
+        } else {
+          const item = document.createElement('div');
+          item.className = 'status-item';
+          item.setAttribute('data-step', text);
+          item.innerHTML = `
+            <span class="status-icon ${iconClass}">${icon}</span>
+            <span>${text}</span>
+          `;
+          container.appendChild(item);
+        }
+      }
+
+      async complete() {
+        this.updateProgress(100);
+        const loadingText = document.getElementById('loadingText');
+        loadingText.textContent = 'Ready to launch';
+
+        await this.sleep(500);
+
+        // Determine which application to load
+        const userRole = localStorage.getItem('userRole') || 'user';
+        let targetPage = 'user.html';
+
+        if (userRole === 'admin') {
+          targetPage = 'admin.html';
+        } else if (userRole === 'reseller') {
+          targetPage = 'reseller.html';
+        }
+
+        // Fade out and redirect
+        document.querySelector('.splash-container').style.animation = 'fadeOut 0.5s ease-out forwards';
+        await this.sleep(500);
+
+        window.location.href = targetPage;
+      }
+
+      error(error) {
+        console.error('Startup error:', error);
+        const loadingText = document.getElementById('loadingText');
+        loadingText.textContent = 'Error occurred, retrying...';
+        loadingText.style.color = '#ef4444';
+
+        setTimeout(() => this.initialize(), 3000);
+      }
+
+      sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+      }
+    }
+
+    // Add fadeOut animation
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes fadeOut {
+        to {
+          opacity: 0;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Start splash screen when DOM is ready
+    document.addEventListener('DOMContentLoaded', () => {
+      new SplashScreen();
+    });
+  </script>
+</body>
+</html>
